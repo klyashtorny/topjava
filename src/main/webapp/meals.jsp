@@ -15,6 +15,7 @@
 <head>
     <title>MealsWithExceed</title>
 
+
     <style>
         table {
             border-collapse: collapse;
@@ -32,32 +33,46 @@
             background-color: #4CAF50;
             color: white;
         }
+
     </style>
+
 </head>
 
 <body>
 
 <h3><a href="index.html">Home</a></h3>
 <h4>Список еды</h4>
-
+<a  href="meals?action=add">Add Meal</a>
+<hr/>
 <table>
+
     <thead>
     <tr>
+        <th>Индекс</th>
         <th>Дата/Время</th>
         <th>Описание</th>
         <th>Калории</th>
+        <th>Изменить/Удалить</th>
 
     </tr>
     </thead>
-    <tbody style="color: green">
+
+    <tbody>
+
     <c:forEach items="${meals}" var="meal" >
-        <tr <c:if test="${meal.exceed==true}"> style="color: red" </c:if>>
+
+       <jsp:useBean id="meal" scope="page" type="ru.javawebinar.topjava.model.MealWithExceed"/>
+
+       <tr class=color: style="${meal.exceed ? 'color: red' : 'color: green'}">
+
+            <td > <c:out value="${meal.id}"/> </td>
             <td>
                 <javatime:format value="${meal.dateTime}" style="MS" />
             </td>
-            <td  ><c:out value="${meal.description}"/> </td>
+            <td><c:out value="${meal.description}"/> </td>
             <td><c:out value="${meal.calories}" /></td>
-
+            <td><a href="meals?action=update&id=${meal.id}">Изменить</a></td>
+            <td><a href="meals?action=delete&id=${meal.id}">Удалить</a></td>
         </tr>
 
     </c:forEach>
