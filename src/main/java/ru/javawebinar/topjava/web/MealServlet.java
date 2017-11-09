@@ -33,13 +33,13 @@ public class MealServlet extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        request.setCharacterEncoding("UTF-8");
         String id = request.getParameter("id");
         Meal meal = new Meal(id.isEmpty()? null : Integer.valueOf(id),
                 LocalDateTime.parse(request.getParameter("dateTime")),
                 request.getParameter("description"),
                 Integer.valueOf(request.getParameter("calories")));
-
+        log.info(meal.isNew() ? "Add {}" : "Update", meal);
         repository.add(meal);
         response.sendRedirect("meals");
 
@@ -50,6 +50,7 @@ public class MealServlet extends HttpServlet {
         String action = request.getParameter("action");
 
         if (action==null){
+            log.info("getAll");
 
             List<MealWithExceed> mealWithExceeds = MealsUtil.getFilteredWithExceeded(repository.getAll(),
                     LocalTime.MIN, LocalTime.MAX, MealsUtil.CALORIES_PER_DAY);
@@ -58,9 +59,15 @@ public class MealServlet extends HttpServlet {
         }
         else if (action.equalsIgnoreCase("delete")){
             int id = getId(request);
+            log.info("Delete {}", id);
             repository.delete(id);
-            request.setAttribute("meals", repository.getAll());
-            request.getRequestDispatcher("/meals.jsp").forward(request, response);
+           response.sendRedirect("meals");
+        }
+        else {
+            final Meal meal = action.equals("add")?
+                    new Meal(LocalDateTime.now(), "", 1000) : repository.get(getId(request));
+            request.setAttribute("meal", meal);
+            request.getRequestDispatcher("mealEdit.jsp").forward(request, response);
         }
 
 

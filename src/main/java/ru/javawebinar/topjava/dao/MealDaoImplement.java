@@ -18,7 +18,7 @@ public class MealDaoImplement implements MealDao {
 
     @Override
     public Meal add(Meal meal) {
-        if(meal.getId()==null){
+        if(meal.isNew()){
             meal.setId(count.incrementAndGet());
         }
         mapRepository.put(meal.getId(), meal);

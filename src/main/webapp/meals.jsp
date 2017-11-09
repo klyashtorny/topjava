@@ -17,6 +17,9 @@
 
 
     <style>
+        .normal {color: green;}
+        .exceed {color: red;}
+
         table {
             border-collapse: collapse;
             width: 50%;
@@ -39,21 +42,21 @@
 </head>
 
 <body>
-
+<section>
 <h3><a href="index.html">Home</a></h3>
 <h4>Список еды</h4>
-<a  href="meals?action=add">Add Meal</a>
+<a  href="meals?action=add">Добавить запись еды в таблицу</a>
 <hr/>
 <table>
 
     <thead>
     <tr>
-        <th>Индекс</th>
+    <!--    <th>Индекс</th> -->
         <th>Дата/Время</th>
         <th>Описание</th>
         <th>Калории</th>
-        <th>Изменить/Удалить</th>
-
+        <th>Изменить</th>
+        <th>Удалить</th>
     </tr>
     </thead>
 
@@ -63,10 +66,10 @@
 
        <jsp:useBean id="meal" scope="page" type="ru.javawebinar.topjava.model.MealWithExceed"/>
 
-       <tr class=color: style="${meal.exceed ? 'color: red' : 'color: green'}">
-
+       <tr class="${meal.exceed ? 'exceed' : 'normal'}">
+<!--
             <td > <c:out value="${meal.id}"/> </td>
-            <td>
+ -->           <td>
                 <javatime:format value="${meal.dateTime}" style="MS" />
             </td>
             <td><c:out value="${meal.description}"/> </td>
@@ -78,7 +81,7 @@
     </c:forEach>
     </tbody>
 </table>
-
+</section>
 </body>
 
 </html>
