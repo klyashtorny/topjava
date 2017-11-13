@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import ru.javawebinar.topjava.model.AbstractNamedEntity;
-import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.model.Role;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.UserRepository;
@@ -23,11 +22,11 @@ public class InMemoryUserRepositoryImpl implements UserRepository {
 
     {
         List<User> USERS = Arrays.asList(
-                repository.put(1, new User(1, "user1", "email1", "pass1",  Role.ROLE_USER)),
-                repository.put(2, new User(2, "user2", "email2", "pass2",  Role.ROLE_USER)),
-                repository.put(3, new User(3, "user2", "email3", "pass3",  Role.ROLE_USER)),
-                repository.put(4, new User(4, "user2", "email4", "pass4",  Role.ROLE_USER)),
-                repository.put(5, new User(5, "user2", "email5", "pass5",  Role.ROLE_USER))
+                repository.put(1, new User(1, "Юра", "email1", "pass1",  Role.ROLE_USER)),
+                repository.put(2, new User(2, "Женя", "email2", "pass2",  Role.ROLE_USER)),
+                repository.put(3, new User(3, "Вася", "email3", "pass3",  Role.ROLE_USER)),
+                repository.put(4, new User(4, "Коля", "email4", "pass4",  Role.ROLE_USER)),
+                repository.put(5, new User(5, "Аня", "email5", "pass5",  Role.ROLE_USER))
         );
     }
 

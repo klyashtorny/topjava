@@ -14,7 +14,8 @@ import static ru.javawebinar.topjava.util.ValidationUtil.checkNotFoundWithId;
 public class MealServiceImpl implements MealService {
 
     private MealRepository repository;
-@Autowired
+
+    @Autowired
     public MealServiceImpl(MealRepository repository) {
         this.repository = repository;
     }
@@ -25,9 +26,8 @@ public class MealServiceImpl implements MealService {
     }
 
     @Override
-    public void delete(int id, int userId) throws NotFoundException {
-        checkNotFoundWithId(repository.delete(id, userId), id);
-
+    public boolean delete(int id, int userId) throws NotFoundException {
+        return repository.delete(id, userId);
     }
 
     @Override
