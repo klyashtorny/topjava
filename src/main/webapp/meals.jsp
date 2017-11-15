@@ -10,16 +10,42 @@
         .normal {
             color: green;
         }
-
         .exceeded {
             color: red;
+        }
+        .centercol {
+            position: relative; /* Относительное позиционирование */
+            width: 100px;
+            padding: 3px; /* Поля вокруг текста */
+            margin: 5px 20px 0 330px; /* Отступы вокруг блока */
         }
     </style>
 </head>
 <body>
 <section>
     <h3><a href="index.html">Home</a></h3>
-    <h2>Meals</h2>
+    <h2>Еда AuthorizedUser.id():</h2>
+
+    <form method="post" action="meals?action=filter">
+        <table border="0" cellpadding="8" cellspacing="0">
+            <thead>
+            <tr>
+                <th>От даты</th>
+                <th><input type="date" value="${sd}" name="startDate"></th>
+                <th>От времени</th>
+                <td><input type="time" value="${st}" name="startTime"></td>
+            </tr>
+            </thead>
+
+            <th>До даты</th>
+            <th><input type="date" value="${ed}" name="endDate"></th>
+            <th>До времени</th>
+            <td><input type="time" value="${et}" name="endTime"></td>
+
+        </table>
+        <button class="centercol" type="submit">Filter</button>
+    </form>
+
     <a href="meals?action=create">Add Meal</a>
     <hr/>
     <table border="1" cellpadding="8" cellspacing="0">

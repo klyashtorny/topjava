@@ -15,6 +15,10 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
+import static ru.javawebinar.topjava.util.ValidationUtil.assureIdConsistent;
+import static ru.javawebinar.topjava.util.ValidationUtil.checkNew;
+
+
 @Controller
 public class MealRestController {
     protected final Logger log = LoggerFactory.getLogger(getClass());
@@ -28,35 +32,37 @@ public class MealRestController {
     }
 
     public List<MealWithExceed> getAll(LocalDate startDate, LocalTime startTime, LocalDate endDate, LocalTime endTime) {
-        log.info("getAllByStartTime");
+        log.info("getAllByTime");
 
         return MealsUtil.getFilteredWithExceeded(service.getAll(AuthorizedUser.id()),
                 startDate == null ? LocalDate.MIN : startDate,
                 startTime == null ? LocalTime.MIN : startTime,
-                endDate   == null ? LocalDate.MAX : endDate,
-                endTime   == null ? LocalTime.MAX : endTime,
+                endDate == null ? LocalDate.MAX : endDate,
+                endTime == null ? LocalTime.MAX : endTime,
                 AuthorizedUser.getCaloriesPerDay());
     }
 
-    public boolean delete(int id) throws NotFoundException {
+    public void delete(int id) throws NotFoundException {
         log.info("delete {}", id);
-        return service.delete(id, AuthorizedUser.id());
+        service.delete(id, AuthorizedUser.id());
+
     }
 
-    public Meal get(int id) throws NotFoundException {
+    public Meal get(int id) {
         log.info("get {}", id);
         return service.get(id, AuthorizedUser.id());
     }
 
-    public Meal create(Meal meal, int userId) throws NotFoundException{
-        log.info("create {} with userId={}", meal, userId);
-       return service.create(meal, userId);
+    public Meal create(Meal meal) throws NotFoundException {
+        log.info("create {} with userId={}", meal);
+        checkNew(meal);
+        return service.create(meal, AuthorizedUser.id());
     }
 
-    public void update(Meal meal, int userId) throws NotFoundException{
-        log.info("update {} with userId={}", meal, userId);
-        service.create(meal, userId);
+    public void update(Meal meal, int id) throws NotFoundException {
+        log.info("update {} with userId={}", meal, id);
+        assureIdConsistent(meal, id);
+        service.update(meal, AuthorizedUser.id());
     }
-
 
 }

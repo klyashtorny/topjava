@@ -49,6 +49,6 @@ public class MealWithExceed {
                 ", description='" + description + '\'' +
                 ", calories=" + calories +
                 ", exceed=" + exceed +
-                '}';
+                '}' + "\n";
     }
 }

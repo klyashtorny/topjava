@@ -9,6 +9,7 @@ import ru.javawebinar.topjava.util.exception.NotFoundException;
 import java.util.List;
 
 import static ru.javawebinar.topjava.util.ValidationUtil.checkNotFoundWithId;
+import static ru.javawebinar.topjava.util.ValidationUtil.checkNotFound;
 
 @Service
 public class MealServiceImpl implements MealService {
@@ -21,13 +22,13 @@ public class MealServiceImpl implements MealService {
     }
 
     @Override
-    public Meal create(Meal meal, int userId) {
-        return repository.save(meal, userId);
+    public Meal create(Meal meal, int userId) throws NotFoundException {
+        return checkNotFound(repository.save(meal, userId), "meal" + meal);
     }
 
     @Override
-    public boolean delete(int id, int userId) throws NotFoundException {
-        return repository.delete(id, userId);
+    public void delete(int id, int userId) throws NotFoundException {
+        checkNotFoundWithId(repository.delete(id, userId), id);
     }
 
     @Override
@@ -36,8 +37,8 @@ public class MealServiceImpl implements MealService {
     }
 
     @Override
-    public void update(Meal meal, int userId) {
-        repository.save(meal, userId);
+    public void update(Meal meal, int userId) throws NotFoundException {
+        checkNotFound(repository.save(meal, userId), "meal" + meal);
     }
 
     @Override

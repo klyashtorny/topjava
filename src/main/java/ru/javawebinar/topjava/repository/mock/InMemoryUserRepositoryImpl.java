@@ -18,28 +18,28 @@ public class InMemoryUserRepositoryImpl implements UserRepository {
     private static final Logger log = LoggerFactory.getLogger(InMemoryUserRepositoryImpl.class);
 
     private Map<Integer, User> repository = new ConcurrentHashMap<>();
-    private AtomicInteger counter = new AtomicInteger(0);
+    private AtomicInteger counter = new AtomicInteger(5);
 
     {
         List<User> USERS = Arrays.asList(
-                repository.put(1, new User(1, "Юра", "email1", "pass1",  Role.ROLE_USER)),
-                repository.put(2, new User(2, "Женя", "email2", "pass2",  Role.ROLE_USER)),
-                repository.put(3, new User(3, "Вася", "email3", "pass3",  Role.ROLE_USER)),
-                repository.put(4, new User(4, "Коля", "email4", "pass4",  Role.ROLE_USER)),
-                repository.put(5, new User(5, "Аня", "email5", "pass5",  Role.ROLE_USER))
+                repository.put(1, new User(1, "Юра", "email1", "pass1", Role.ROLE_USER)),
+                repository.put(2, new User(2, "Женя", "email2", "pass2", Role.ROLE_USER)),
+                repository.put(3, new User(3, "Вася", "email3", "pass3", Role.ROLE_USER)),
+                repository.put(4, new User(4, "Коля", "email4", "pass4", Role.ROLE_USER)),
+                repository.put(5, new User(5, "Аня", "email5", "pass5", Role.ROLE_USER))
         );
     }
 
     @Override
     public boolean delete(int id) {
         log.info("delete {}", id);
-        return repository.remove(id)!=null;
+        return repository.remove(id) != null;
     }
 
     @Override
     public User save(User user) {
         log.info("save {}", user);
-        if(user.isNew()){
+        if (user.isNew()) {
             user.setId(counter.incrementAndGet());
         }
         repository.put(user.getId(), user);
@@ -49,7 +49,7 @@ public class InMemoryUserRepositoryImpl implements UserRepository {
     @Override
     public User get(int id) {
         log.info("get {}", id);
-       return repository.get(id);
+        return repository.get(id);
     }
 
     @Override
