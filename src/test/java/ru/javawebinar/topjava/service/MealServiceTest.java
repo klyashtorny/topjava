@@ -10,14 +10,13 @@ import org.springframework.test.context.junit4.SpringRunner;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
-import java.util.HashSet;
 import java.util.List;
 
 import static ru.javawebinar.topjava.MealTestData.*;
-import static org.junit.Assert.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ContextConfiguration({
@@ -35,37 +34,48 @@ public class MealServiceTest {
     @Test
     public void get() throws Exception {
        Meal mealUser = service.get(USER_MEAL.iterator().next().getId(), USER_ID);
-       assertEquals(mealUser, USER_MEAL.iterator().next());
+       assertThat(mealUser).isEqualTo(USER_MEAL.iterator().next());
     }
 
     @Test(expected = NotFoundException.class)
     public void getNotFound() throws Exception {
         Meal mealUser = service.get(USER_MEAL.get(2).getId(), ADMIN_ID);
-        assertEquals(mealUser, ADMIN_MEAL.iterator().next());
+        assertThat(mealUser).isEqualTo(USER_MEAL.iterator().next());
     }
 
     @Test
     public void delete() throws Exception {
-        service.delete(USER_MEAL.get(2).getId(), USER_ID);
+        Meal meal = USER_MEAL.get(2);
+        service.delete(meal.getId(), USER_ID);
+        assertThat(meal).isNotIn(service.getAll(USER_ID));
     }
 
     @Test(expected = NotFoundException.class)
     public void alienDelete() throws Exception {
-        service.delete(USER_MEAL.iterator().next().getId(), ADMIN_ID);
+        Meal meal = USER_MEAL.get(2);
+        service.delete(meal.getId(), ADMIN_ID);
     }
 
     @Test
     public void getBetweenDates() throws Exception {
+        List<Meal> mealsData = USER_MEAL;
+        List<Meal> meals = service.getBetweenDates(LocalDate.of(2017, Month.NOVEMBER, 19),
+                LocalDate.of(2017, Month.NOVEMBER, 20), USER_ID);
+        assertThat(mealsData).containsOnlyElementsOf(meals);
     }
 
     @Test
     public void getBetweenDateTimes() throws Exception {
+        List<Meal> mealsData = USER_MEAL;
+       List<Meal> meals = service.getBetweenDateTimes(LocalDateTime.of(2017, Month.NOVEMBER, 19, 7, 0),
+                LocalDateTime.of(2017, Month.NOVEMBER, 19, 23, 0), USER_ID);
+       assertThat(mealsData).containsOnlyElementsOf(meals);
     }
 
     @Test
     public void getAll() throws Exception {
         List<Meal> mealList = service.getAll(USER_ID);
-        assertThat(new HashSet<>(mealList)).isEqualTo(new HashSet<>(USER_MEAL));
+        assertThat(mealList).containsOnlyElementsOf(USER_MEAL);
     }
 
     @Test
@@ -75,7 +85,16 @@ public class MealServiceTest {
         updated.setCalories(250);
         updated.setDescription("Новая еда");
         service.update(updated, USER_ID);
-        assertEquals(service.get(USER_MEAL.get(1).getId(), USER_ID), updated);
+        assertThat(service.get(USER_MEAL.get(1).getId(), USER_ID)).isEqualTo(updated);
+    }
+
+    @Test(expected = NotFoundException.class)
+    public void updateNotFound() throws Exception {
+        Meal updated = new Meal(USER_MEAL.get(1));
+        updated.setDateTime(LocalDateTime.of(2017, Month.NOVEMBER, 15, 10, 0));
+        updated.setCalories(250);
+        updated.setDescription("Новая еда");
+        service.update(updated, ADMIN_ID);
     }
 
     @Test
@@ -83,7 +102,7 @@ public class MealServiceTest {
         Meal newMeal = new Meal(null, LocalDateTime.of(2017, Month.NOVEMBER, 12, 15, 0), "Еда новая", 800);
         Meal created = service.create(newMeal, USER_ID);
         newMeal.setId(created.getId());
-        assertEquals(newMeal, service.get(newMeal.getId(), USER_ID));
+        assertThat(newMeal).isEqualTo(created);
     }
 
 }
