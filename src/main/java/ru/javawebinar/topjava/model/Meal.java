@@ -1,7 +1,5 @@
 package ru.javawebinar.topjava.model;
 
-import jdk.nashorn.internal.ir.annotations.Ignore;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
@@ -11,9 +9,9 @@ import java.time.LocalTime;
 @NamedQueries(value = {
         @NamedQuery(name = Meal.DELETE, query = "DELETE FROM Meal m WHERE m.id=:id AND m.user.id=:user_id"),
         @NamedQuery(name = Meal.GET, query = "SELECT m FROM Meal m WHERE m.id=:id AND m.user.id=:user_id"),
-        @NamedQuery(name = Meal.GET_ALL, query = "SELECT m FROM Meal m JOIN FETCH m.user WHERE m.user.id=:user_id ORDER BY m.dateTime DESC"),
+        @NamedQuery(name = Meal.GET_ALL, query = "SELECT m FROM Meal m LEFT JOIN FETCH m.user WHERE m.user.id=:user_id ORDER BY m.dateTime DESC"),
         @NamedQuery(name = Meal.UPDATE, query = "UPDATE Meal m SET m.dateTime=:date_time, m.description=:description, m.calories=:calories WHERE m.id=:id AND m.user.id=:user_id"),
-        @NamedQuery(name = Meal.GET_BETWEEN, query = "SELECT m FROM Meal m JOIN FETCH m.user WHERE m.user.id=:user_id AND m.dateTime BETWEEN :startDate AND :endDate ORDER BY m.dateTime DESC"),
+        @NamedQuery(name = Meal.GET_BETWEEN, query = "SELECT m FROM Meal m LEFT JOIN FETCH m.user WHERE m.user.id=:user_id AND m.dateTime BETWEEN :startDate AND :endDate ORDER BY m.dateTime DESC"),
 
 })
 @Entity
