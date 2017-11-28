@@ -1,7 +1,13 @@
 package ru.javawebinar.topjava.service;
 
+import org.junit.AfterClass;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.Stopwatch;
+import org.junit.runner.Description;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.slf4j.bridge.SLF4JBridgeHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -15,6 +21,7 @@ import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import static ru.javawebinar.topjava.UserTestData.*;
 
@@ -26,10 +33,30 @@ import static ru.javawebinar.topjava.UserTestData.*;
 @Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
 public class UserServiceTest {
 
+
+    private static final Logger log = LoggerFactory.getLogger(MealServiceTest.class);
+    private static StringBuilder results = new StringBuilder();
     static {
         // Only for postgres driver logging
         // It uses java.util.logging and logged via jul-to-slf4j bridge
         SLF4JBridgeHandler.install();
+    }
+    @Rule
+    public final Stopwatch stopwatch = new Stopwatch() {
+        protected void finished(long nanos, Description description) {
+            String result = String.format("%-25s %7d", description.getMethodName(), TimeUnit.NANOSECONDS.toMillis(nanos));
+            results.append(result).append('\n');
+            log.info(result + " ms\n");
+        }
+
+    };
+
+    @AfterClass
+    public static void after() {
+        log.info("\n---------------------------" +
+                "\n Test           Duration, ms\n" +
+                results +
+                "\n----------------------------");
     }
 
     @Autowired
