@@ -8,7 +8,9 @@ import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.MealRepository;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class DataJpaMealRepositoryImpl implements MealRepository {
@@ -17,13 +19,15 @@ public class DataJpaMealRepositoryImpl implements MealRepository {
     @Autowired
     private CrudMealRepository crudRepository;
 
+    @Autowired
+    private CrudUserRepository crudUserRepository;
+
     @Override
     public Meal save(Meal meal, int userId) {
         if (!meal.isNew() && get(meal.getId(), userId) == null) {
             return null;
         } else {
-            User user = new User();
-            user.setId(userId);
+            User user = crudUserRepository.getOne(userId);
             meal.setUser(user);
             return crudRepository.save(meal);
         }
@@ -31,7 +35,7 @@ public class DataJpaMealRepositoryImpl implements MealRepository {
 
     @Override
     public boolean delete(int id, int userId) {
-        return crudRepository.delete(id, userId) != 0;
+        return crudRepository.deleteMealByIdAndUserId(id, userId)!= 0;
     }
 
     @Override
@@ -44,11 +48,24 @@ public class DataJpaMealRepositoryImpl implements MealRepository {
 
     @Override
     public List<Meal> getAll(int userId) {
-        return crudRepository.getAll(userId);
+        return crudRepository.findMealByUserIdOrderByIdDesc(userId);
+    }
+//
+//    @Override
+//    public List<Meal> getBetween(LocalDateTime startDate, LocalDateTime endDate, int userId) {
+//        return crudRepository.getBetween(startDate, endDate, userId);
+//    }
+    @Override
+    public List<Meal> getBetween(LocalDateTime startDate, LocalDateTime endDate, int userId) {
+        return crudRepository.findMealByUserIdAndDateTimeBetweenOrderByDateTimeDesc(userId, startDate, endDate);
     }
 
     @Override
-    public List<Meal> getBetween(LocalDateTime startDate, LocalDateTime endDate, int userId) {
-        return crudRepository.getBetween(startDate, endDate, userId);
+    public Map<List<Meal>, User> getWithUser(int id, int userId) {
+        Map<List<Meal>, User> map = new HashMap<>();
+        User user = crudUserRepository.findById(userId).orElse(null);
+        List<Meal> meals = crudRepository.findMealByUserIdOrderByIdDesc(userId);
+        map.put(meals, user);
+        return map;
     }
 }

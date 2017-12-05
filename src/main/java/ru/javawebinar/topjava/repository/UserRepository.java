@@ -1,10 +1,13 @@
 package ru.javawebinar.topjava.repository;
 
+import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.model.User;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public interface UserRepository {
+public interface UserRepository{
     User save(User user);
 
     // false if not found
@@ -17,4 +20,8 @@ public interface UserRepository {
     User getByEmail(String email);
 
     List<User> getAll();
+
+    default Map<User, List<Meal>> getWithMeal(int id){
+        return null;
+    }
 }

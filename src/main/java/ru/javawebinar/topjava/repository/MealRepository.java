@@ -1,9 +1,11 @@
 package ru.javawebinar.topjava.repository;
 
 import ru.javawebinar.topjava.model.Meal;
+import ru.javawebinar.topjava.model.User;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 public interface MealRepository {
     // null if updated meal do not belong to userId
@@ -20,4 +22,8 @@ public interface MealRepository {
 
     // ORDERED dateTime desc
     List<Meal> getBetween(LocalDateTime startDate, LocalDateTime endDate, int userId);
+
+    default Map<List<Meal>, User> getWithUser(int id, int userId){
+        return null;
+    }
 }
