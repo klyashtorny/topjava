@@ -28,11 +28,10 @@ public class MealServiceDataJpaTest extends AbstractMealServiceTest {
 
     @Test
     public void testGetWithUser() throws Exception {
-
         Map<List<Meal>, User> map = service.getWithUser(ADMIN_MEAL_ID, ADMIN_ID);
         User user = map.values().iterator().next();
         List<Meal> meals = map.entrySet().stream().map(entry -> entry.getKey()).findAny().get();
         UserTestData.assertMatch(user, ADMIN);
-        MealTestData.assertMatch(meals, ADMIN_MEAL2, ADMIN_MEAL1);
+        MealTestData.assertMatch(meals, ADMIN_MEAL1, ADMIN_MEAL2);
     }
 }

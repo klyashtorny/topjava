@@ -29,7 +29,7 @@ public class UserServiceDataJpaTest extends AbstractUserServiceTest{
         User user = map.keySet().iterator().next();
         List<Meal> meals = map.get(user);
         UserTestData.assertMatch(user, USER);
-        MealTestData.assertMatch(meals, MEAL6, MEAL5, MEAL4, MEAL3, MEAL2, MEAL1);
+        MealTestData.assertMatch(meals, MEAL1, MEAL2, MEAL3, MEAL4, MEAL5, MEAL6);
     }
 
 

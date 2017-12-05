@@ -1,8 +1,10 @@
 package ru.javawebinar.topjava.repository.datajpa;
 
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.MealRepository;
@@ -22,12 +24,14 @@ public class DataJpaMealRepositoryImpl implements MealRepository {
     @Autowired
     private CrudUserRepository crudUserRepository;
 
+    @Transactional
     @Override
     public Meal save(Meal meal, int userId) {
         if (!meal.isNew() && get(meal.getId(), userId) == null) {
             return null;
         } else {
             User user = crudUserRepository.getOne(userId);
+            Hibernate.initialize(user);
             meal.setUser(user);
             return crudRepository.save(meal);
         }
@@ -50,21 +54,18 @@ public class DataJpaMealRepositoryImpl implements MealRepository {
     public List<Meal> getAll(int userId) {
         return crudRepository.findMealByUserIdOrderByIdDesc(userId);
     }
-//
-//    @Override
-//    public List<Meal> getBetween(LocalDateTime startDate, LocalDateTime endDate, int userId) {
-//        return crudRepository.getBetween(startDate, endDate, userId);
-//    }
+
     @Override
     public List<Meal> getBetween(LocalDateTime startDate, LocalDateTime endDate, int userId) {
         return crudRepository.findMealByUserIdAndDateTimeBetweenOrderByDateTimeDesc(userId, startDate, endDate);
     }
-
+    @Transactional
     @Override
     public Map<List<Meal>, User> getWithUser(int id, int userId) {
         Map<List<Meal>, User> map = new HashMap<>();
         User user = crudUserRepository.findById(userId).orElse(null);
-        List<Meal> meals = crudRepository.findMealByUserIdOrderByIdDesc(userId);
+        user.getMeals().iterator();
+        List<Meal> meals = user.getMeals();
         map.put(meals, user);
         return map;
     }
