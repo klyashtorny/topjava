@@ -32,5 +32,5 @@ public interface CrudMealRepository extends JpaRepository<Meal, Integer> {
     Meal getOne(Integer integer);
 
     @Query("SELECT m FROM Meal m JOIN FETCH m.user WHERE m.id = ?1 and m.user.id = ?2 ORDER BY m.dateTime DESC ")
-    Meal getWithUser(Integer id, Integer userId);
+    Meal getWithUser(int id, int userId);
 }
