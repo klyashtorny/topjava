@@ -59,6 +59,6 @@ public class MealServiceImpl implements MealService {
 
    @Transactional
     public Meal getWithUser(int id, int userId) {
-        return checkNotFoundWithId(repository.get(id, userId), id);
+        return checkNotFoundWithId(repository.getWithUser(id, userId), id);
     }
 }
