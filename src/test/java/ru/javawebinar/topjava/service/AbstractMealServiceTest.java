@@ -20,7 +20,7 @@ public abstract class AbstractMealServiceTest extends AbstractBaseTest {
     public ExpectedException thrown = ExpectedException.none();
 
     @Autowired
-    private MealService service;
+    protected MealService service;
 
     @Test
     public void testDelete() throws Exception {

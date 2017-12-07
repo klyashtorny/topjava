@@ -23,9 +23,6 @@ import static ru.javawebinar.topjava.UserTestData.*;
 @ActiveProfiles(Profiles.DATAJPA)
 public class MealServiceDataJpaTest extends AbstractMealServiceTest {
 
-    @Autowired
-    private MealService service;
-
     @Test
     public void testGetWithUser() throws Exception {
         Meal meal = service.getWithUser(ADMIN_MEAL_ID, ADMIN_ID);
