@@ -22,5 +22,5 @@ public interface UserService {
 
     List<User> getAll();
 
-    Map<User, List<Meal>> getWithMeal(int id);
+    User getWithMeal(int id);
 }

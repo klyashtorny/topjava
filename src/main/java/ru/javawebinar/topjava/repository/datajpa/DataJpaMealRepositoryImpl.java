@@ -31,7 +31,6 @@ public class DataJpaMealRepositoryImpl implements MealRepository {
             return null;
         } else {
             User user = crudUserRepository.getOne(userId);
-            Hibernate.initialize(user);
             meal.setUser(user);
             return crudRepository.save(meal);
         }
@@ -59,14 +58,9 @@ public class DataJpaMealRepositoryImpl implements MealRepository {
     public List<Meal> getBetween(LocalDateTime startDate, LocalDateTime endDate, int userId) {
         return crudRepository.findMealByUserIdAndDateTimeBetweenOrderByDateTimeDesc(userId, startDate, endDate);
     }
-    @Transactional
+
     @Override
-    public Map<List<Meal>, User> getWithUser(int id, int userId) {
-        Map<List<Meal>, User> map = new HashMap<>();
-        User user = crudUserRepository.findById(userId).orElse(null);
-        user.getMeals().iterator();
-        List<Meal> meals = user.getMeals();
-        map.put(meals, user);
-        return map;
+    public Meal getWithUser(Integer id, Integer userId){
+      return crudRepository.getWithUser(id, userId);
     }
 }

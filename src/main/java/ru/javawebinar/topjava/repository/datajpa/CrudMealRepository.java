@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-@Transactional
+@Transactional(readOnly = true)
 public interface CrudMealRepository extends JpaRepository<Meal, Integer> {
 
     @Transactional
@@ -29,6 +29,8 @@ public interface CrudMealRepository extends JpaRepository<Meal, Integer> {
     List<Meal> findMealByUserIdAndDateTimeBetweenOrderByDateTimeDesc(int userId, LocalDateTime startDate, LocalDateTime endDate);
 
     @Override
-    @Query("SELECT u FROM User u JOIN FETCH u.meals WHERE u.id = :id")
     Meal getOne(Integer integer);
+
+    @Query("SELECT m FROM Meal m JOIN FETCH m.user WHERE m.id = ?1 and m.user.id = ?2 ORDER BY m.dateTime DESC ")
+    Meal getWithUser(Integer id, Integer userId);
 }

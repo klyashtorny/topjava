@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Map<User, List<Meal>> getWithMeal(int id) throws NotFoundException {
+    public User getWithMeal(int id) throws NotFoundException {
         return checkNotFoundWithId(repository.getWithMeal(id), id);
     }
 

@@ -6,11 +6,8 @@ import org.springframework.test.context.ActiveProfiles;
 import ru.javawebinar.topjava.MealTestData;
 import ru.javawebinar.topjava.Profiles;
 import ru.javawebinar.topjava.UserTestData;
-import ru.javawebinar.topjava.model.Meal;
-import ru.javawebinar.topjava.model.User;
 
-import java.util.List;
-import java.util.Map;
+import ru.javawebinar.topjava.model.User;
 
 import static ru.javawebinar.topjava.MealTestData.*;
 import static ru.javawebinar.topjava.UserTestData.USER;
@@ -25,11 +22,9 @@ public class UserServiceDataJpaTest extends AbstractUserServiceTest{
 
     @Test
     public void testGetWithMeal() throws Exception {
-        Map<User, List<Meal>> map = service.getWithMeal(USER_ID);
-        User user = map.keySet().iterator().next();
-        List<Meal> meals = map.get(user);
-        UserTestData.assertMatch(user, USER);
-        MealTestData.assertMatch(meals, MEAL1, MEAL2, MEAL3, MEAL4, MEAL5, MEAL6);
+        User user = service.getWithMeal(USER_ID);
+        UserTestData.assertMatch(USER, user);
+        MealTestData.assertMatch(MealTestData.MEALS, user.getMeals());
     }
 
 

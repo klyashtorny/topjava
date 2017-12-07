@@ -47,12 +47,7 @@ public class DataJpaUserRepositoryImpl implements UserRepository {
 
     @Transactional
     @Override
-    public Map<User, List<Meal>> getWithMeal(int id) {
-        Map<User, List<Meal>> map = new HashMap<>();
-        User user = crudRepository.findById(id).orElse(null);
-        user.getMeals().iterator();
-        List<Meal> meals = user.getMeals();
-        map.put(user, meals);
-        return map;
+    public User getWithMeal(int id) {
+    return crudRepository.getWithMeal(id);
     }
 }
