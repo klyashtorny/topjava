@@ -16,9 +16,6 @@ import static ru.javawebinar.topjava.UserTestData.*;
 @ActiveProfiles(DATAJPA)
 public class DataJpaUserServiceTest extends AbstractUserServiceTest {
 
-    @Autowired
-    protected JpaUtil jpaUtil;
-
     @Override
     @Before
     public void setUp() throws Exception {
