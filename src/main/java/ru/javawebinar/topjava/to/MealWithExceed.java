@@ -51,4 +51,12 @@ public class MealWithExceed {
                 ", exceed=" + exceed +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MealWithExceed that = (MealWithExceed) o;
+        return description != null ? description.equals(that.description) : that.description == null;
+    }
 }
