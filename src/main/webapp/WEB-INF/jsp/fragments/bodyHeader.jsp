@@ -13,6 +13,9 @@
                     <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
                 </a>
             </form>
+            <script type="text/javascript">
+                var localeCode = "ru";
+            </script>
         </div>
     </div>
 </div>

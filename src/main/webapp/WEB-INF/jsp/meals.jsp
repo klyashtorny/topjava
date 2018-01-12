@@ -12,7 +12,6 @@
 <div class="jumbotron">
     <div class="container">
         <h3><spring:message code="meal.title"/></h3>
-
         <div class="row">
             <div class="col-sm-7">
                 <div class="panel panel-default">
@@ -21,16 +20,15 @@
                             <div class="form-group">
                                 <label class="control-label col-sm-2" for="startDate"><spring:message
                                         code="meal.startDate"/>:</label>
-
                                 <div class="col-sm-4">
-                                    <input class="form-control" type="date" name="startDate" id="startDate">
+                                    <input class="form-control" name="startDate" id="startDate">
                                 </div>
 
                                 <label class="control-label col-sm-3" for="startTime"><spring:message
                                         code="meal.startTime"/>:</label>
 
                                 <div class="col-sm-3">
-                                    <input class="form-control" type="time" name="startTime" id="startTime">
+                                    <input class="form-control" name="startTime" id="startTime">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -38,14 +36,14 @@
                                         code="meal.endDate"/>:</label>
 
                                 <div class="col-sm-4">
-                                    <input class="form-control" type="date" name="endDate" id="endDate">
+                                    <input class="form-control" name="endDate" id="endDate">
                                 </div>
 
                                 <label class="control-label col-sm-3" for="endTime"><spring:message
                                         code="meal.endTime"/>:</label>
 
                                 <div class="col-sm-3">
-                                    <input class="form-control" type="time" name="endTime" id="endTime">
+                                    <input class="form-control" name="endTime" id="endTime">
                                 </div>
                             </div>
                         </form>
@@ -86,7 +84,7 @@
                     </td>
                     <td>${meal.description}</td>
                     <td>${meal.calories}</td>
-                    <td><a><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a></td>
+                    <td><a><span class='glyphicon glyphicon-pencil' aria-hidden='true'></span></a></td>
                     <td><a onclick="deleteRow(${meal.id})">
                         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                     </a></td>
@@ -101,33 +99,30 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h2 class="modal-title" id="modalTitle"><spring:message code="meal.add"/></h2>
+                <h2 class="modal-title" id="modalTitle"></h2>
             </div>
             <div class="modal-body">
                 <form class="form-horizontal" id="detailsForm">
                     <input type="hidden" id="id" name="id">
 
                     <div class="form-group">
-                        <label for="dateTime" class="control-label col-xs-3"><spring:message
-                                code="meal.dateTime"/></label>
+                        <label for="dateTime" class="control-label col-xs-3">Дата/Время</label>
 
                         <div class="col-xs-9">
-                            <input type="datetime-local" class="form-control" id="dateTime" name="dateTime"
-                                   placeholder="<spring:message code="meal.dateTime"/>">
+                            <input class="form-control" id="dateTime" name="dateTime"
+                                   placeholder="Дата/Время">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="description" class="control-label col-xs-3"><spring:message
-                                code="meal.description"/></label>
+                        <label for="description" class="control-label col-xs-3">Описание</label>
 
                         <div class="col-xs-9">
                             <input type="text" class="form-control" id="description" name="description"
-                                   placeholder="<spring:message code="meal.description"/>">
+                                   placeholder="Описание">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="calories" class="control-label col-xs-3"><spring:message
-                                code="meal.calories"/></label>
+                        <label for="calories" class="control-label col-xs-3">Калории</label>
 
                         <div class="col-xs-9">
                             <input type="number" class="form-control" id="calories" name="calories" placeholder="1000">
@@ -135,7 +130,7 @@
                     </div>
                     <div class="form-group">
                         <div class="col-xs-offset-3 col-xs-9">
-                            <button class="btn btn-primary" type="button" onclick="save()">
+                            <button type="button" onclick="save()" class="btn btn-primary">
                                 <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
                             </button>
                         </div>
@@ -145,6 +140,16 @@
         </div>
     </div>
 </div>
+
 <jsp:include page="fragments/footer.jsp"/>
 </body>
+<script type="text/javascript">
+    var i18n = [];
+    i18n["addTitle"] = '<spring:message code="meal.add"/>';
+    i18n["editTitle"] = '<spring:message code="meal.edit"/>';
+
+    <c:forEach var="key" items='<%=new String[]{"common.deleted","common.saved","common.enabled","common.disabled","common.errorStatus"}%>'>
+    i18n["${key}"] = "<spring:message code="${key}"/>";
+    </c:forEach>
+</script>
 </html>

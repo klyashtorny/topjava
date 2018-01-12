@@ -6,3 +6,4 @@
         <spring:message code="app.footer"/>
     </div>
 </div>
+
