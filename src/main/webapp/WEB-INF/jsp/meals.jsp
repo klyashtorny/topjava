@@ -106,23 +106,23 @@
                     <input type="hidden" id="id" name="id">
 
                     <div class="form-group">
-                        <label for="dateTime" class="control-label col-xs-3">Дата/Время</label>
+                        <label for="dateTime" class="control-label col-xs-3"><spring:message code="meal.dateTime"/></label>
 
                         <div class="col-xs-9">
                             <input class="form-control" id="dateTime" name="dateTime"
-                                   placeholder="Дата/Время">
+                                   placeholder="<spring:message code="meal.dateTime"/>">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="description" class="control-label col-xs-3">Описание</label>
+                        <label for="description" class="control-label col-xs-3"><spring:message code="meal.description"/></label>
 
                         <div class="col-xs-9">
                             <input type="text" class="form-control" id="description" name="description"
-                                   placeholder="Описание">
+                                   placeholder="<spring:message code="meal.description"/>">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="calories" class="control-label col-xs-3">Калории</label>
+                        <label for="calories" class="control-label col-xs-3"><spring:message code="meal.calories"/></label>
 
                         <div class="col-xs-9">
                             <input type="number" class="form-control" id="calories" name="calories" placeholder="1000">

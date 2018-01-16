@@ -14,7 +14,7 @@
                 </a>
             </form>
             <script type="text/javascript">
-                var localeCode = "ru";
+                var localeCode = 'en';
             </script>
         </div>
     </div>
